@@ -1,11 +1,12 @@
 from fastapi import FastAPI, HTTPException, Depends
 from typing import List
+from sqlalchemy.orm import Session
 from .database import get_db
 from .models import Task
 from .schemas import TaskCreate, TaskResponse
 from datetime import datetime
-from sqlalchemy.orm import Session
 import uuid
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI(title="Unix-Inspired Task Manager")
 
@@ -41,3 +42,16 @@ async def get_task(task_id: str, db: Session = Depends(get_db)):
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
     return task
+
+@app.delete("/tasks/{task_id}", status_code=204)
+async def delete_task(task_id: str, db: Session = Depends(get_db)):
+    """Delete a task by ID"""
+    task = db.query(Task).filter(Task.id == task_id).first()
+    if not task:
+        raise HTTPException(status_code=404, detail="Task not found")
+    db.delete(task)
+    db.commit()
+    return None
+
+# Mount static files
+app.mount("/static", StaticFiles(directory="static"), name="static")

@@ -1,0 +1,21 @@
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+.column {
+    width: 45%;
+    display: inline-block;
+    vertical-align: top;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+#command-section, #forkFields {
+    margin-bottom: 20px;
+}
+input, button {
+    padding: 5px;
+    margin-right: 10px;
+}

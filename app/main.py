@@ -8,6 +8,8 @@ from datetime import datetime
 import uuid
 from fastapi.staticfiles import StaticFiles
 
+
+#FastAPI app instance
 app = FastAPI(title="Unix-Inspired Task Manager")
 
 @app.get("/tasks", response_model=List[TaskResponse])
@@ -53,5 +55,5 @@ async def delete_task(task_id: str, db: Session = Depends(get_db)):
     db.commit()
     return None
 
-# Mount static files
+# static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
